@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-SCRAPING WEBSITE
+SCRAPING WEBSITE WITH BeautifulSoup
 """
 from bs4 import BeautifulSoup
 import requests, time, csv
