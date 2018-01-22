@@ -15,7 +15,7 @@ d2 = pd.read_excel("test.xlsx",sheetname = "Sheet2", index = 0, header =None)
 before =  d2.iloc[:4, :] # THIS PART STAY THE SAME
 titles = d2.loc[4:4] # IN THIS PART "Topic" is changed to "Topics"
 titles.loc[4:4, 4] = "Topics" # CHANGE OF EXCEL CELL "Topic" TO "Topics"
-main = d2.iloc[5:7] #IN THIS PART IS ADDED A ROW IN EXCEL SHEET WITH ONLY ONE TOPIC
+main = d2.iloc[5:7] #IN THIS PART A ROW IS ADDED IN EXCEL SHEET WITH ONLY ONE TOPIC
 all_data =[] #HERE WILL BE STORED ROWS, THAT WILL BE ADDED TO NEW DATAFRAME
 ending = d2.iloc[7:, :] #THIS PART STAY THE SAME
 for row in range(5, 7): #ITERATE OVER ROWS IN DATAFRAME
