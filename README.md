@@ -1,2 +1,2 @@
 # Python
-Contains my python programs
+Contains my python scripts
