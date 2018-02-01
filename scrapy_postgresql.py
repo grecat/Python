@@ -79,7 +79,13 @@ class TestSpider(scrapy.Spider):
         
         wind_speed = response.css("tr td svg text.wind-icon-val::text").extract()
         wind_direction = all_info[57:75]
-        wind_state = all_b[21:39]
+        wind_s =response.css("tr:nth-child(9) td b::text").extract()
+        wind_state = []
+        for ind in range(len(wind_s)):
+            if "-" in wind_s[ind]:
+                wind_state.append(wind_s[ind] + wind_s[ind + 1])
+            if wind_s[ind-1] in ["off", "onshore", "shore", "offshore", "glassy"] and "-" not in wind_s[ind]:
+                wind_state.append(wind_s[ind])
         tide_state =all_info[75:93]
         high_tide = response.css("tr.tin.sma td").extract()
         h_tide = []
