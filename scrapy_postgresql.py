@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+##TO RUN THIS SCRIPT SCRAPY SHOULD BE INSTALLED, install by type in: pip install scrapy, or if you use Anaconda https://anaconda.org/anaconda/scrapy
+##NAVIGATE IN TERMINAL TO DIRECTORY WHERE THIS FILE IS STORED AND TYPE IN scrapy runspider scrapy_postgresql.py
 import scrapy, psycopg2
 from scrapy.selector import Selector
 
@@ -8,21 +10,26 @@ class TestSpider(scrapy.Spider):
     start_urls = ['http://www.surf-forecast.com/breaks/Nusadua/forecasts/latest']
 
     def parse(self, response):
+        #Line 12-15 is authentication data for PostgreSQL
+        dbname = 'surf' # Database name that will be created, modify if needed
+        usrname = 'postgres'#Username for PostgreSQL, modify if needed
+        hostname = 'localhost'#Hostname for PostgreSQL, modify if needed
+        psword = '123456'# Password for PostgreSQL
         try:
             #CONNECT TO DATABASE IF IT EXISTS, USERNAME AND PASSWORD SHOULD BE MODIFIED IF NEEDED
-            conn = psycopg2.connect(database ='surf', user='postgres', host='localhost', password='123456')
+            conn = psycopg2.connect(database = dbname , user= usrname, host= hostname, password= psword)
             conn.autocommit = True
             cur = conn.cursor()
             
         except:
             #CREATE DATABASE IF IT DOES NOT EXISTS AND CONNECT IT, USERNAME AND PASSWORD SHOULD BE MODIFIED IF NEEDED
-            conn = psycopg2.connect(user='postgres', host='localhost', password='123456')
+            conn = psycopg2.connect(user = usrname, host= hostname, password= psword)
             conn.autocommit = True
             cur = conn.cursor()
-            cur.execute('CREATE DATABASE surf;')
+            cur.execute('CREATE DATABASE ' + dbname)
             cur.close()
             conn.close()
-            conn = psycopg2.connect(database ='surf', user='postgres', host='localhost', password='123456')
+            conn = psycopg2.connect(database =dbname, user= usrname, host= hostname, password= psword)
             conn.autocommit = True
             cur = conn.cursor()
             cur.execute("""CREATE TABLE SURF_FORECAST
@@ -75,8 +82,6 @@ class TestSpider(scrapy.Spider):
         periods = all_info[39:57]
         all_b = response.css("#target-for-range-tabs tr td b::text").extract()
         energy = all_b[3:21]
-        
-        
         wind_speed = response.css("tr td svg text.wind-icon-val::text").extract()
         wind_direction = all_info[57:75]
         wind_s =response.css("tr:nth-child(9) td b::text").extract()
@@ -86,6 +91,7 @@ class TestSpider(scrapy.Spider):
                 wind_state.append(wind_s[ind] + wind_s[ind + 1])
             if wind_s[ind-1] in ["off", "onshore", "shore", "offshore", "glassy"] and "-" not in wind_s[ind]:
                 wind_state.append(wind_s[ind])
+        
         tide_state =all_info[75:93]
         high_tide = response.css("tr.tin.sma td").extract()
         h_tide = []
