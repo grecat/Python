@@ -1,1 +1,0 @@
-This part is an example of usage pandas with excel documents.
