@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy, sqlite3, os
 from scrapy.selector import Selector
-#TO RUN THIS SCRIPT YOU NEED TO INSTALL scrapy
+#TO RUN THIS SCRIPT YOU NEED TO INSTALL scrapy, in terminal"pip install scrapy"
 #TO RUN THIS FILE OPEN COMMAND PROMPT
 #CD INTO DIRECTORY WHERE IT IS STORED AND TYPE IN scrapy runspider python_sqlite.py
 
